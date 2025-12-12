@@ -1,0 +1,107 @@
+{
+  "realm": "hr-app",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "resetPasswordAllowed": true,
+
+  "roles": {
+    "realm": [
+      {
+        "name": "ROLE_USER",
+        "description": "Standard employee user"
+      },
+      {
+        "name": "ROLE_MANAGER",
+        "description": "HR Manager with access to all profiles"
+      }
+    ]
+  },
+
+  "clients": [
+    {
+      "clientId": "angular-spa",
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": false,
+      "authorizationServicesEnabled": false,
+      "redirectUris": [
+        "http://localhost:4200/*"
+      ],
+      "webOrigins": [
+        "*"
+      ],
+      "baseUrl": "http://localhost:4200",
+      "rootUrl": "http://localhost:4200",
+      "enabled": true
+    },
+    {
+      "clientId": "springboot-api",
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "CHANGE_ME_SECRET",
+      "redirectUris": [],
+      "webOrigins": [],
+      "enabled": true
+    }
+  ],
+
+  "users": [
+    {
+      "username": "manager",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Mara",
+      "lastName": "Manager",
+      "email": "manager@company.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "manager123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["ROLE_MANAGER"]
+    },
+    {
+      "username": "employee",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Evan",
+      "lastName": "Employee",
+      "email": "employee@company.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "employee123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["ROLE_USER"]
+    },
+   {
+      "username": "employee2",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Evan2",
+      "lastName": "Employee2",
+      "email": "employee2@company.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "employee123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["ROLE_USER"]
+    }
+  ]
+}
