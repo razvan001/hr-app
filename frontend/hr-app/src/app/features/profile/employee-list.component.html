@@ -1,0 +1,42 @@
+<div class="container">
+  <h2>Employee Management</h2>
+
+  @if (loading()) {
+    <div class="loading">Loading...</div>
+  }
+
+  @if (error()) {
+    <div class="error">{{ error() }}</div>
+  }
+
+  <table class="employees-table">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Departament</th>
+      <th style="width: 160px;">Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+      @for (emp of employees(); track emp.id) {
+        <tr>
+          <td>{{ emp.name }}</td>
+          <td>{{ emp.email }}</td>
+          <td>{{ emp.department }}</td>
+          <td class="actions">
+            <button class="edit-btn" (click)="editEmployee(emp.id)">Edit</button>
+            <button class="delete-btn" (click)="deleteEmployee(emp.id)">Delete</button>
+          </td>
+        </tr>
+      }
+
+      @if (employees().length === 0) {
+        <tr>
+          <td colspan="4" class="empty">No employees found.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

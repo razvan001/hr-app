@@ -1,0 +1,36 @@
+<div class="profile-container">
+
+  <h2>Profile</h2>
+
+  <form [formGroup]="profileForm" (ngSubmit)="onSave()" class="profile-edit">
+    <label>Name</label>
+    <input type="text" formControlName="name"/>
+    <div *ngIf="profileForm.controls['name'].invalid && profileForm.controls['name'].touched"
+         class="error">
+      Name is required.
+    </div>
+
+    <label>Email</label>
+    <input type="email" formControlName="email"/>
+    <div *ngIf="profileForm.controls['email'].invalid && profileForm.controls['email'].touched"
+         class="error">
+      Valid email is required.
+    </div>
+
+    <label>Position</label>
+    <input type="text" formControlName="position"/>
+
+    <label>Department</label>
+    <input type="text" formControlName="department"/>
+
+    <label>Salary</label>
+    <input type="number" formControlName="salary"/>
+
+    <div class="buttons">
+      <button type="submit" class="btn primary" [disabled]="profileForm.invalid">Save</button>
+      <button type="button" class="btn" (click)="onCancel()">Cancel</button>
+      <button type="button" class="btn" (click)="goBack()">Back to Profiles</button>
+    </div>
+  </form>
+
+</div>

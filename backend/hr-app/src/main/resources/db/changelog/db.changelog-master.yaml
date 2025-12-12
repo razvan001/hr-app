@@ -1,0 +1,225 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1-create-user-table
+      author: razvanpotra
+      changes:
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  type: varchar(255)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: position
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: department
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: salary
+                  type: double
+              - column:
+                  name: type
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 2-add-username-to-user
+      author: razvanpotra
+      changes:
+        - addColumn:
+            tableName: user
+            columns:
+              - column:
+                  name: username
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+        - createIndex:
+            tableName: user
+            indexName: idx_user_username
+            columns:
+              - column:
+                  name: username
+  - changeSet:
+      id: 3-create-feedback-table
+      author: razvanpotra
+      changes:
+        - createTable:
+            tableName: feedback
+            columns:
+              - column:
+                  name: id
+                  type: varchar(255)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: author
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: text
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: feedback
+            baseColumnNames: user_id
+            referencedTableName: user
+            referencedColumnNames: id
+            constraintName: fk_feedback_user
+  - changeSet:
+      id: 4-insert-initial-users
+      author: razvanpotra
+      changes:
+        - insert:
+            tableName: user
+            columns:
+              - column: { name: id, value: mgr-001 }
+              - column: { name: name, value: Alice Manager }
+              - column: { name: email, value: alice.manager@example.com }
+              - column: { name: position, value: Manager }
+              - column: { name: department, value: HR }
+              - column: { name: salary, valueNumeric: 90000 }
+              - column: { name: type, value: MANAGER }
+              - column: { name: username, value: manager }
+        - insert:
+            tableName: user
+            columns:
+              - column: { name: id, value: emp-001 }
+              - column: { name: name, value: Bob Employee }
+              - column: { name: email, value: bob.employee@example.com }
+              - column: { name: position, value: Developer }
+              - column: { name: department, value: IT }
+              - column: { name: salary, valueNumeric: 70000 }
+              - column: { name: type, value: EMPLOYEE }
+              - column: { name: username, value: employee }
+        - insert:
+            tableName: user
+            columns:
+              - column: { name: id, value: emp-002 }
+              - column: { name: name, value: Charlie Adams }
+              - column: { name: email, value: charlie.adams@example.com }
+              - column: { name: position, value: QA Engineer }
+              - column: { name: department, value: IT }
+              - column: { name: salary, valueNumeric: 65000 }
+              - column: { name: type, value: EMPLOYEE }
+              - column: { name: username, value: charlieadams }
+        - insert:
+            tableName: user
+            columns:
+              - column: { name: id, value: emp-003 }
+              - column: { name: name, value: Diana Brooks }
+              - column: { name: email, value: diana.brooks@example.com }
+              - column: { name: position, value: Business Analyst }
+              - column: { name: department, value: Business }
+              - column: { name: salary, valueNumeric: 72000 }
+              - column: { name: type, value: EMPLOYEE }
+              - column: { name: username, value: dianabrooks }
+        - insert:
+            tableName: user
+            columns:
+              - column: { name: id, value: emp-004 }
+              - column: { name: name, value: Ethan Clark }
+              - column: { name: email, value: ethan.clark@example.com }
+              - column: { name: position, value: Frontend Developer }
+              - column: { name: department, value: IT }
+              - column: { name: salary, valueNumeric: 68000 }
+              - column: { name: type, value: EMPLOYEE }
+              - column: { name: username, value: ethanclark }
+        - insert:
+            tableName: user
+            columns:
+              - column: { name: id, value: emp-005 }
+              - column: { name: name, value: Fiona Davis }
+              - column: { name: email, value: fiona.davis@example.com }
+              - column: { name: position, value: Backend Developer }
+              - column: { name: department, value: IT }
+              - column: { name: salary, valueNumeric: 71000 }
+              - column: { name: type, value: EMPLOYEE }
+              - column: { name: username, value: fionadavis }
+        - insert:
+            tableName: user
+            columns:
+              - column: { name: id, value: emp-006 }
+              - column: { name: name, value: George Evans }
+              - column: { name: email, value: george.evans@example.com }
+              - column: { name: position, value: DevOps Engineer }
+              - column: { name: department, value: IT }
+              - column: { name: salary, valueNumeric: 73000 }
+              - column: { name: type, value: EMPLOYEE }
+              - column: { name: username, value: georgeevans }
+        - insert:
+            tableName: user
+            columns:
+              - column: { name: id, value: emp-007 }
+              - column: { name: name, value: Hannah Foster }
+              - column: { name: email, value: hannah.foster@example.com }
+              - column: { name: position, value: UI/UX Designer }
+              - column: { name: department, value: Design }
+              - column: { name: salary, valueNumeric: 67000 }
+              - column: { name: type, value: EMPLOYEE }
+              - column: { name: username, value: hannahfoster }
+        - insert:
+            tableName: user
+            columns:
+              - column: { name: id, value: emp-008 }
+              - column: { name: name, value: Ian Green }
+              - column: { name: email, value: ian.green@example.com }
+              - column: { name: position, value: Support Engineer }
+              - column: { name: department, value: Support }
+              - column: { name: salary, valueNumeric: 64000 }
+              - column: { name: type, value: EMPLOYEE }
+              - column: { name: username, value: iangreen }
+        - insert:
+            tableName: user
+            columns:
+              - column: { name: id, value: emp-009 }
+              - column: { name: name, value: Julia Harris }
+              - column: { name: email, value: julia.harris@example.com }
+              - column: { name: position, value: Product Owner }
+              - column: { name: department, value: Business }
+              - column: { name: salary, valueNumeric: 75000 }
+              - column: { name: type, value: EMPLOYEE }
+              - column: { name: username, value: juliaharris }
+        - insert:
+            tableName: user
+            columns:
+              - column: { name: id, value: emp-010 }
+              - column: { name: name, value: Kevin Lee }
+              - column: { name: email, value: kevin.lee@example.com }
+              - column: { name: position, value: Data Analyst }
+              - column: { name: department, value: Analytics }
+              - column: { name: salary, valueNumeric: 69000 }
+              - column: { name: type, value: EMPLOYEE }
+              - column: { name: username, value: kevinlee }

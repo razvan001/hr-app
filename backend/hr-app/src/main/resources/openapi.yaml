@@ -1,0 +1,216 @@
+openapi: 3.0.3
+info:
+  title: Profiles API
+  version: 1.0.0
+tags:
+  - name: Profile
+    description: Operations about profiles
+  - name: Feedback
+    description: Operations about feedbacks
+paths:
+  /api/v1/profiles:
+    get:
+      summary: Get paginated profiles
+      operationId: getProfiles
+      tags:
+        - Profile
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Paginated list of profiles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfilesDtoResponse'
+    post:
+      summary: Create a new profile
+      operationId: createProfile
+      tags:
+        - Profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileDto'
+      responses:
+        '201':
+          description: Profile created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileDto'
+  /api/v1/profiles/{userName}:
+    get:
+      summary: Get profile by userName
+      operationId: getProfileByUserName
+      tags:
+        - Profile
+      parameters:
+        - name: userName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Profile userName
+      responses:
+        '200':
+          description: Profile found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileDto'
+        '404':
+          description: Profile not found
+    put:
+      summary: Update profile by userName
+      operationId: updateProfileByUserName
+      tags:
+        - Profile
+      parameters:
+        - name: userName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Profile userName
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileDto'
+      responses:
+        '200':
+          description: Profile updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileDto'
+        '404':
+          description: Profile not found
+  /api/v1/feedbacks:
+    post:
+      summary: Create feedback
+      operationId: createFeedback
+      tags:
+        - Feedback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackCreateDto'
+      responses:
+        '201':
+          description: Feedback created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedbackDto'
+        '404':
+          description: Profile not found
+components:
+  schemas:
+    ProfilesDtoResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProfileDto'
+        page:
+          type: integer
+        size:
+          type: integer
+        totalElements:
+          type: integer
+        totalPages:
+          type: integer
+      required:
+        - content
+        - page
+        - size
+        - totalElements
+        - totalPages
+    ProfileDto:
+      type: object
+      properties:
+        id:
+          type: string
+          example: mock-id
+        name:
+          type: string
+          example: Mock User
+        email:
+          type: string
+          format: email
+          example: mock.user@example.com
+        position:
+          type: string
+          example: Developer
+        department:
+          type: string
+          example: IT
+        userName:
+          type: string
+          example: mockuser
+        salary:
+          type: number
+          format: double
+          example: 200
+        type:
+          type: string
+          example: manager
+        feedbacks:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeedbackDto'
+      required:
+        - id
+        - name
+        - email
+        - position
+        - department
+    FeedbackDto:
+      type: object
+      properties:
+        id:
+          type: string
+        author:
+          type: string
+        text:
+          type: string
+        date:
+          type: string
+          format: date-time
+      required:
+        - id
+        - author
+        - text
+        - date
+    FeedbackCreateDto:
+      type: object
+      properties:
+        author:
+          type: string
+        text:
+          type: string
+        profileUsername:
+          type: string
+      required:
+        - author
+        - text
+        - profileUsername

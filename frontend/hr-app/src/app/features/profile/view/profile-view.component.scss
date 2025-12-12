@@ -1,0 +1,15 @@
+.card {
+  max-width:760px;
+  padding:16px;
+  border-radius:8px;
+  background:#fff;
+  box-shadow:0 4px 12px rgba(0,0,0,0.04);
+}
+
+.actions { margin-top:12px; display:flex; gap:8px; }
+input, textarea { width:100%; padding:8px; border:1px solid #ddd; border-radius:6px; }
+.error { color: red; font-size:13px; }
+.btn { padding:8px 12px; border-radius:6px; border:none; cursor:pointer; }
+.btn.primary { background:#1976d2; color:#fff; }
+
+

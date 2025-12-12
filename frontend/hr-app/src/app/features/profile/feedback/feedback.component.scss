@@ -1,0 +1,56 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fafbfc;
+  margin-top: 1rem;
+
+  textarea {
+    min-height: 80px;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    resize: vertical;
+  }
+
+  button[type="submit"] {
+    align-self: flex-end;
+    padding: 0.5rem 1.5rem;
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:disabled {
+      background: #bdbdbd;
+      cursor: not-allowed;
+    }
+  }
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+
+  li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+
+    strong {
+      color: #1976d2;
+    }
+
+    small {
+      color: #888;
+      margin-left: 0.5rem;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  postgres:
+    image: bitnami/postgresql:16.4.0
+    environment:
+      POSTGRES_DB: hrdb
+      POSTGRES_USER: hruser
+      POSTGRES_PASSWORD: hrpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+
+volumes:
+  pgdata:
+    name: postgres_data_hr
+    driver: local
