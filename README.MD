@@ -1,6 +1,19 @@
 # HR-APP
 ### Prerequisites
-   Docker Engine (e.g. Docker Desktop)
+   * Docker Engine (e.g. Docker Desktop)
+   * Generate .p12 keystore file for keycloack and place it in infra/certs folder
+#### Example command to generate .p12 file:
+   keytool -genkeypair -alias keycloak -keyalg RSA -keysize 2048 -storetype PKCS12 -keystore keycloak.p12 -validity 3650
+   * Use the following values when prompted:
+     * First and Last Name: localhost
+     * Organizational Unit: HR-APP
+     * Organization: My Company
+     * City or Locality: My City
+     * State or Province: My State
+     * Country Code: US
+     * Key password: changeit
+     * Store password: changeit
+
 ### Running the Application
 #### Start infrastructure:
    Navigate to the infra folder
