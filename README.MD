@@ -40,6 +40,6 @@
    * Add tests in Angular app
    * Improve UI/UX
 #### Features Implemented
-   Users can view their own and other profiles
-   Managers can view salaries and edit profiles
-   Co-workers can add feedback (ordered by date descending)
+   * Users can view their own and other profiles
+   * Managers can view salaries and edit profiles
+   * Co-workers can add feedback (ordered by date descending)
