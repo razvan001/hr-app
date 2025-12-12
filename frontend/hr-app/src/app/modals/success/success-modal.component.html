@@ -1,0 +1,6 @@
+<div class="modal-backdrop" *ngIf="visible">
+  <div class="modal">
+    <p>{{ message }}</p>
+    <button (click)="close.emit()">OK</button>
+  </div>
+</div>

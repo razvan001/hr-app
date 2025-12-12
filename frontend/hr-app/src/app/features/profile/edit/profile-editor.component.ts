@@ -2,12 +2,14 @@ import {Component, signal, effect, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {EmployeeProfile, ProfileService} from "../../services/profile/profile.service";
+import {EmployeeProfile, ProfileService} from "../data/profile.service";
+import {SuccessModalComponent} from "../../../modals/success/success-modal.component";
+import {tap} from "rxjs";
 
 @Component({
   selector: 'app-profile-editor',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, SuccessModalComponent],
   templateUrl: './profile-editor.component.html',
   styleUrls: ['./profile-editor.component.scss']
 })
@@ -18,10 +20,12 @@ export class ProfileEditorComponent implements OnInit {
   private route = inject(ActivatedRoute)
 
 
-  // UI state
-  editing = signal(false);
+  showSuccessModal = false;
 
-  // Profile signals
+  closeModal() {
+    this.showSuccessModal = false;
+    this.goBack();
+  }
 
   constructor() {
     // Load the profile on component creation
@@ -56,12 +60,17 @@ export class ProfileEditorComponent implements OnInit {
 
   }
 
-  onEdit() {
-    this.editing.set(true);
-  }
-
   onCancel() {
-    this.editing.set(false);
+    const profile = this.profileService.profile();
+    if (profile) {
+      this.profileForm.reset({
+        name: profile.name,
+        email: profile.email,
+        position: profile.position,
+        department: profile.department,
+        salary: profile.salary,
+      });
+    }
   }
 
   goBack() {
@@ -74,8 +83,9 @@ export class ProfileEditorComponent implements OnInit {
     const updated: EmployeeProfile = this.profileForm.value;
     if (updated) {
       this.profileService.updateProfile(updated)
-      .subscribe(() => this.router.navigate(['/profiles']));
-      this.editing.set(false);
+      .pipe(
+        tap(() => this.showSuccessModal = true))
+      .subscribe();
     }
   }
 }

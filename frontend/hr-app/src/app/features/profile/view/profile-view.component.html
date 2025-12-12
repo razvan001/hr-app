@@ -1,19 +1,14 @@
 @if (this.profileService.profile()) {
   <section class="card">
-    <h2>{{ this.profileService.profile()?.name }}</h2>
+    <h2>{{ profileService.profile()?.name }}</h2>
     <p><strong>Email:</strong> {{ this.profileService.profile()?.email }}</p>
     <p><strong>Position:</strong> {{ this.profileService.profile()?.position || '-' }}</p>
     <p><strong>Department:</strong> {{ this.profileService.profile()?.department || '-' }}</p>
+    @if (canSeeSalary()) {
     <p><strong>Salary:</strong> {{ this.profileService.profile()?.salary ?? '-' }}</p>
-
-    <h3>Feedback</h3>
-    <ul>
-      @for (f of (this.profileService.profile()?.feedback || []); track f) {
-        <li>
-<!--          <strong>{{ f.author }}:</strong> {{ f.text }} <small>({{ f.date }})</small>-->
-        </li>
-      }
-    </ul>
+    }
+    <app-feedback [profileUserName]="profileService.profile()?.userName"
+                  [feedbacks]="this.profileService.profile()?.feedbacks || []"></app-feedback>
   </section>
 } @else {
   <p>Loading profile...</p>

@@ -1,7 +1,9 @@
-import { Component, signal, effect, inject } from '@angular/core';
+import {Component, signal, effect, inject, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import {ProfileService} from "../services/profile/profile.service";
+import {ProfileService} from "./data/profile.service";
+import {environment} from "../../../environments/environment";
+import {isManager} from "../../auth/keycloak-init";
 
 @Component({
   selector: 'app-employee-list',
@@ -9,36 +11,44 @@ import {ProfileService} from "../services/profile/profile.service";
   templateUrl: './employee-list.component.html',
   styleUrls: ['./employee-list.component.scss']
 })
-export class EmployeeListComponent {
+export class EmployeeListComponent implements OnInit{
 
-  private profileService = inject(ProfileService);
+  public profileService = inject(ProfileService);
   private router = inject(Router);
 
-  // Load employee list as a signal
-  employees = toSignal(this.profileService.getAll(), { initialValue: [] });
+  isManager: boolean = isManager();
+
+  constructor() {
+    effect(() => this.profileService.profiles(), {})
+  }
+
+  ngOnInit(): void {
+        this.profileService.loadNextPage();
+    }
 
   // Track loading & error
-  loading = signal(false);
+  loading = this.profileService.loading;
   error = signal<string | null>(null);
+  allLoaded = this.profileService.allLoaded;
 
   deleteEmployee(id: string) {
-    // this.loading.set(true);
-    // this.error.set(null);
-    //
-    // this.profileService.delete(id).subscribe({
-    //   next: () => {
-    //     // Reload employees after delete
-    //     this.profileService.getAll().subscribe(list => this.employees.set(list));
-    //     this.loading.set(false);
-    //   },
-    //   error: () => {
-    //     this.error.set('Could not delete employee.');
-    //     this.loading.set(false);
-    //   }
-    // });
+
+  }
+
+  goToProfile(userName: string) {
+    this.router.navigate(['/profile', userName])
   }
 
   editEmployee(id: string) {
     this.router.navigate(['/employees', id, 'edit']);
+  }
+
+  onScroll(event: any) {
+    var threshold = 100;
+    var position = event.target.scrollTop + event.target.offsetHeight;
+    var height = event.target.scrollHeight;
+    if (height - position < threshold) {
+      this.profileService.loadNextPage();
+    }
   }
 }

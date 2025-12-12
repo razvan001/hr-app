@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
 import { Router, CanActivateFn, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
-import { keycloak } from '../../../auth/keycloak-init';
+import {getUsername, keycloak} from './keycloak-init';
+
 
 export const authGuard: CanActivateFn = async ( route: ActivatedRouteSnapshot,
                                              state: RouterStateSnapshot) => {
@@ -8,5 +9,6 @@ export const authGuard: CanActivateFn = async ( route: ActivatedRouteSnapshot,
     await keycloak.login({redirectUri: globalThis.location.origin + state.url});
     return false; // wait until login completes
   }
+
   return true;
 };

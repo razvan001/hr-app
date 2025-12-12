@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" (scroll)="onScroll($event)" style="height: 600px; overflow-y: auto;">
   <h2>Employee Management</h2>
 
   @if (loading()) {
@@ -15,24 +15,27 @@
       <th>Name</th>
       <th>Email</th>
       <th>Departament</th>
+      @if (isManager) {
       <th style="width: 160px;">Actions</th>
+      }
     </tr>
     </thead>
 
     <tbody>
-      @for (emp of employees(); track emp.id) {
-        <tr>
+      @for (emp of profileService.profiles(); track emp.id) {
+        <tr (click)="goToProfile(emp.userName)" style="cursor: pointer;">
           <td>{{ emp.name }}</td>
           <td>{{ emp.email }}</td>
           <td>{{ emp.department }}</td>
+          @if (isManager) {
           <td class="actions">
-            <button class="edit-btn" (click)="editEmployee(emp.id)">Edit</button>
+            <button class="edit-btn" (click)="editEmployee(emp.userName)">Edit</button>
             <button class="delete-btn" (click)="deleteEmployee(emp.id)">Delete</button>
           </td>
+          }
         </tr>
       }
-
-      @if (employees().length === 0) {
+      @if (profileService.profiles().length === 0) {
         <tr>
           <td colspan="4" class="empty">No employees found.</td>
         </tr>

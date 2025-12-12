@@ -34,3 +34,8 @@
   </form>
 
 </div>
+<app-success-modal
+  [visible]="showSuccessModal"
+  message="Profile updated successfully!"
+  (close)="closeModal()">
+</app-success-modal>

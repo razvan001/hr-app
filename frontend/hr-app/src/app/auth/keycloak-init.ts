@@ -1,7 +1,7 @@
 import Keycloak from 'keycloak-js';
 
 export const keycloak = new Keycloak({
-  url: 'http://localhost:8080/',
+  url: 'https://localhost:8443/',
   realm: 'hr-app',
   clientId: 'angular-spa'
 });
@@ -23,6 +23,11 @@ export function initializeKeycloak() {
   };
 }
 
-export function getUsername(): string | undefined {
+export function getUsername(): string  {
   return keycloak.tokenParsed?.['preferred_username'];
+}
+
+export function isManager(): boolean {
+  const roles = keycloak.tokenParsed?.['realm_access']?.roles || [];
+  return roles.includes('ROLE_MANAGER');
 }

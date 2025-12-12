@@ -1,0 +1,21 @@
+<h3>Feedback</h3>
+<ul>
+  @for (f of (feedbacks || []); track f) {
+    <li>
+      <strong>{{ f.author }}:</strong> {{ f.text }} <small>({{ f.date | customDate }})</small>
+    </li>
+  }
+</ul>
+
+@if (showForm()) {
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <textarea formControlName="feedback" placeholder="Add feedback"></textarea>
+    <button type="submit" [disabled]="form.invalid">Submit</button>
+  </form>
+}
+
+<app-success-modal
+  [visible]="showSuccessModal"
+  message="Feedback submitted successfully!"
+  (close)="closeModal()">
+</app-success-modal>
